@@ -1,3 +1,6 @@
+// (c) 2013 Artjom Eske
+// This code is licensed under MIT license (see LICENSE.txt for details)
+
 #pragma once
 
 class Button{
@@ -11,13 +14,17 @@ private:
 
   uint64_t m_start = 0;
   uint64_t m_stop = 0;
+
   bool m_wasPressed = false;
+
+  bool m_missPress = false;
 
 public:
 
   uint64_t ElapsedTime(){
     return m_elapsedTime;
   }
+
 
   void Read(){
       if(digitalRead(m_pin) == HIGH){
@@ -34,17 +41,32 @@ public:
             m_pressed = false;
             m_stop = millis();
             m_elapsedTime = m_stop - m_start;
-            m_wasPressed = true;
+
+            if (m_missPress) {
+                m_wasPressed = false;
+                m_missPress = false;
+            }
+            else {
+                m_wasPressed = true;
+            }
         }
       }
   }
+
+  bool State(){
+    return m_pressed;
+  }
+
+  void SetMissPress(){
+      m_missPress = true;
+  }
+
 
   bool WasPressed(){
       if(m_wasPressed){
           m_wasPressed = false;
           return true;
       }
-      
       return false;
   }
 

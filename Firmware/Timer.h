@@ -1,3 +1,6 @@
+// (c) 2013 Artjom Eske
+// This code is licensed under MIT license (see LICENSE.txt for details)
+
 #pragma once
 
 class SoftwareTimer
@@ -11,6 +14,10 @@ public:
     }
     uint64_t ElapsedTime(){
         return millis() - start;
+    }
+
+    void Stop() {
+        IsRunning = false;
     }
 
     bool IsRunning = false;
